@@ -1,5 +1,6 @@
-// SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity ^0.8.9;
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.18;
 
 import "./IERC20.sol";
 
@@ -19,12 +20,12 @@ contract ERC20 is IERC20 {
   uint8 public decimals = 18;
 
   function transfer(
-    address recipoent,
-    uint amount
+    address to,
+    uint256 amount
   ) external override returns (bool) {
     balanceOf[msg.sender] -= amount;
-    balanceOf[recipoent] += amount;
-    emit Transfer(msg.sender, recipoent, amount);
+    balanceOf[to] += amount;
+    emit Transfer(msg.sender, to, amount);
     return true;
   }
 
@@ -40,7 +41,7 @@ contract ERC20 is IERC20 {
   function transferFrom(
     address sender,
     address receipt,
-    uint amount
+    uint256 amount
   ) external override returns (bool) {
     if (allowance[sender][receipt] >= amount) {
       allowance[sender][receipt] -= amount;
@@ -53,5 +54,11 @@ contract ERC20 is IERC20 {
     balanceOf[receipt] += amount;
     emit Transfer(sender, receipt, amount);
     return true;
+  }
+
+  function mint(uint256 amount) external {
+    balanceOf[msg.sender] += amount;
+    totalSupply += amount;
+    emit Transfer(address(0), msg.sender, amount);
   }
 }
