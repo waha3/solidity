@@ -30,18 +30,20 @@ interface IERC721 is IERC165 {
     bytes calldata data
   ) external;
 
-  function safeTransferFrom(
-    address from,
-    address to,
-    uint256 tokenId,
-  ) external;
+  function safeTransferFrom(address from, address to, uint256 tokenId) external;
 
   function transferFrom(address from, address to, uint256 tokenId) external;
 
-  // function approve(address to, uint256 tokenId) external;
+  function approve(address to, uint256 tokenId) external;
 
+  function setApproveForAll(address operator, bool approved) external;
 
-  // function setApproveForAll(address operator,  bool approved) external;
+  function getApproved(
+    uint256 tokenId
+  ) external view returns (address operator);
 
-
+  function isApprovedForAll(
+    address owner,
+    address operater
+  ) external view returns (bool);
 }
